@@ -1,0 +1,298 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+/* Game Area */
+.game-area {
+    padding: 40px 20px;
+}
+
+/* Stats */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 2em;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.stat-subvalue {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+/* Character Container */
+.character-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0;
+    position: relative;
+    height: 200px;
+}
+
+.character {
+    font-size: 120px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s ease;
+    filter: drop-shadow(0 5px 15px rgba(102, 126, 234, 0.4));
+}
+
+.character:hover {
+    filter: drop-shadow(0 8px 20px rgba(102, 126, 234, 0.6));
+    transform: scale(1.05);
+}
+
+.character:active {
+    transform: scale(0.95);
+}
+
+.click-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.click-number {
+    position: absolute;
+    font-size: 2em;
+    font-weight: bold;
+    color: #667eea;
+    pointer-events: none;
+    animation: floatUp 1s ease-out forwards;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0.5);
+    }
+}
+
+/* Upgrades Section */
+.upgrades-section {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 40px;
+}
+
+.upgrades-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 1.8em;
+}
+
+.upgrades-category {
+    margin-bottom: 30px;
+}
+
+.upgrades-category h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+
+.upgrades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.upgrade-btn {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.upgrade-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+}
+
+.upgrade-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f0f0f0;
+}
+
+.upgrade-btn.affordable {
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    border-color: #84fab0;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(132, 250, 176, 0.4);
+}
+
+.upgrade-btn.affordable:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(132, 250, 176, 0.6);
+}
+
+.upgrade-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.upgrade-btn.affordable .upgrade-name {
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.upgrade-cost {
+    font-size: 1.1em;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.upgrade-btn.affordable .upgrade-cost {
+    color: white;
+}
+
+.upgrade-gain {
+    font-size: 0.9em;
+    color: #667eea;
+    font-weight: 600;
+}
+
+.upgrade-btn.affordable .upgrade-gain {
+    color: white;
+}
+
+.upgrade-owned {
+    font-size: 0.8em;
+    color: #999;
+    font-style: italic;
+}
+
+.upgrade-btn.affordable .upgrade-owned {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2em;
+    }
+
+    .character {
+        font-size: 80px;
+    }
+
+    .character-container {
+        height: 150px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .upgrades-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.5em;
+    }
+
+    .character {
+        font-size: 60px;
+    }
+
+    .character-container {
+        height: 120px;
+    }
+
+    .upgrades-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .upgrade-btn {
+        padding: 12px;
+    }
+}
