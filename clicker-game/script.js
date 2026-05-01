@@ -87,7 +87,7 @@ function updateUpgradeButtons(type, container) {
             <span class="upgrade-name">${upgrade.name}</span>
             <span class="upgrade-cost">💰 ${formatNumber(cost)}</span>
             <span class="upgrade-gain">+${upgrade.gain}${type === 'auto' ? '/sec' : ''}</span>
-            <span class="upgrade-owned">Niveau: ${upgrade.level}</span>
+            <span class="upgrade-owned">Lvl: ${upgrade.level}</span>
         `;
         
         button.addEventListener('click', () => buyUpgrade(type, index));
@@ -120,7 +120,7 @@ character.addEventListener('click', (e) => {
     // Add points
     gameState.points += gameState.clickPower;
     
-    // Create click effect
+    // Get SVG position
     const rect = character.getBoundingClientRect();
     const effect = document.createElement('div');
     effect.className = 'click-number';
@@ -130,9 +130,15 @@ character.addEventListener('click', (e) => {
     
     document.getElementById('clickEffect').appendChild(effect);
     
-    setTimeout(() => effect.remove(), 1000);
+    setTimeout(() => effect.remove(), 1200);
     
     // Character animation
+    character.style.animation = 'none';
+    setTimeout(() => {
+        character.style.animation = 'characterIdle 3s ease-in-out infinite';
+    }, 50);
+    
+    // Scale animation
     character.style.transform = 'scale(0.85)';
     setTimeout(() => {
         character.style.transform = 'scale(1)';
@@ -158,3 +164,22 @@ renderUpgrades();
 function renderUpgrades() {
     updateDisplay();
 }
+
+// Eye tracking effect
+document.addEventListener('mousemove', (e) => {
+    const character_el = document.getElementById('character');
+    const rect = character_el.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+    const pupils = document.querySelectorAll('.pupil');
+    
+    pupils.forEach(pupil => {
+        const pupilOffset = 2;
+        const pupilX = pupilOffset * Math.cos(angle);
+        const pupilY = pupilOffset * Math.sin(angle);
+        pupil.setAttribute('cx', parseFloat(pupil.getAttribute('cx')) + pupilX * 0.3);
+        pupil.setAttribute('cy', parseFloat(pupil.getAttribute('cy')) + pupilY * 0.3);
+    });
+});
