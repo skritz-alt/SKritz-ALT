@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 SKritz Clicker - Jeu de Clic</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎭 SKritz Clicker</h1>
+            <p class="subtitle">Clique sur le personnage pour gagner des points!</p>
+        </header>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="stat-label">💰 Points:</span>
+                    <span class="stat-value" id="points">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">👆 Cliqueur:</span>
+                    <span class="stat-value" id="clickPower">1</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">⚙️ Auto-Cliqueur:</span>
+                    <span class="stat-value" id="autoClickPower">1</span>
+                    <span class="stat-subvalue">/sec</span>
+                </div>
+            </div>
+
+            <!-- Character -->
+            <div class="character-container">
+                <div class="character" id="character">🎭</div>
+                <div class="click-effect" id="clickEffect"></div>
+            </div>
+
+            <!-- Upgrades Section -->
+            <div class="upgrades-section">
+                <h2>🛍️ Améliorations</h2>
+                
+                <div class="upgrades-category">
+                    <h3>👆 Améliorations du Cliqueur</h3>
+                    <div class="upgrades-grid" id="clickerUpgrades"></div>
+                </div>
+
+                <div class="upgrades-category">
+                    <h3>⚙️ Améliorations de l'Auto-Cliqueur</h3>
+                    <div class="upgrades-grid" id="autoUpgrades"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
