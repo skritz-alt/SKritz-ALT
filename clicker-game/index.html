@@ -16,27 +16,93 @@
 
         <!-- Game Area -->
         <div class="game-area">
-            <!-- Stats -->
-            <div class="stats">
-                <div class="stat-box">
-                    <span class="stat-label">💰 Points:</span>
+            <!-- Stats Dashboard -->
+            <div class="stats-dashboard">
+                <div class="stat-box total-points">
+                    <span class="stat-label">💰</span>
                     <span class="stat-value" id="points">0</span>
+                    <span class="stat-name">Points</span>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-label">👆 Cliqueur:</span>
+                <div class="stat-box click-power">
+                    <span class="stat-label">👆</span>
                     <span class="stat-value" id="clickPower">1</span>
+                    <span class="stat-name">Cliqueur</span>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-label">⚙️ Auto-Cliqueur:</span>
+                <div class="stat-box auto-power">
+                    <span class="stat-label">⚙️</span>
                     <span class="stat-value" id="autoClickPower">1</span>
-                    <span class="stat-subvalue">/sec</span>
+                    <span class="stat-name">Auto/sec</span>
                 </div>
             </div>
 
-            <!-- Character -->
-            <div class="character-container">
-                <div class="character" id="character">🎭</div>
-                <div class="click-effect" id="clickEffect"></div>
+            <!-- Character Section -->
+            <div class="character-section">
+                <!-- Character Container -->
+                <div class="character-container">
+                    <svg class="character" id="character" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Shoes -->
+                        <rect x="70" y="270" width="25" height="20" fill="#1a1a1a" rx="3"/>
+                        <rect x="105" y="270" width="25" height="20" fill="#1a1a1a" rx="3"/>
+                        
+                        <!-- Legs -->
+                        <rect x="75" y="220" width="15" height="50" fill="#d4a574" rx="7"/>
+                        <rect x="110" y="220" width="15" height="50" fill="#d4a574" rx="7"/>
+                        
+                        <!-- Body -->
+                        <ellipse cx="100" cy="140" rx="45" ry="60" fill="#e74c3c"/>
+                        
+                        <!-- Arms -->
+                        <rect x="20" y="110" width="20" height="70" fill="#d4a574" rx="10"/>
+                        <rect x="160" y="110" width="20" height="70" fill="#d4a574" rx="10"/>
+                        
+                        <!-- Hands -->
+                        <circle cx="30" cy="185" r="12" fill="#d4a574"/>
+                        <circle cx="170" cy="185" r="12" fill="#d4a574"/>
+                        
+                        <!-- Neck -->
+                        <rect x="90" y="80" width="20" height="15" fill="#d4a574"/>
+                        
+                        <!-- Head -->
+                        <circle cx="100" cy="55" r="35" fill="#FFD700"/>
+                        
+                        <!-- Hair -->
+                        <path d="M 65 35 Q 65 15, 100 10 Q 135 15, 135 35" fill="#FF8C00"/>
+                        <circle cx="80" cy="25" r="8" fill="#FF8C00"/>
+                        <circle cx="120" cy="25" r="8" fill="#FF8C00"/>
+                        
+                        <!-- Eyes -->
+                        <circle cx="85" cy="50" r="6" fill="white"/>
+                        <circle cx="115" cy="50" r="6" fill="white"/>
+                        <circle class="pupil" cx="85" cy="50" r="3" fill="#1a1a1a"/>
+                        <circle class="pupil" cx="115" cy="50" r="3" fill="#1a1a1a"/>
+                        
+                        <!-- Eyebrows -->
+                        <path d="M 78 42 Q 85 40, 92 42" stroke="#FF8C00" stroke-width="2" fill="none"/>
+                        <path d="M 108 42 Q 115 40, 122 42" stroke="#FF8C00" stroke-width="2" fill="none"/>
+                        
+                        <!-- Cheeks -->
+                        <circle cx="65" cy="60" r="8" fill="#ff9999" opacity="0.6"/>
+                        <circle cx="135" cy="60" r="8" fill="#ff9999" opacity="0.6"/>
+                        
+                        <!-- Smile -->
+                        <path d="M 85 70 Q 100 80, 115 70" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+                        
+                        <!-- Nose -->
+                        <path d="M 100 55 L 100 68" stroke="#FFA500" stroke-width="2"/>
+                        
+                        <!-- Heart on chest -->
+                        <g transform="translate(100, 135)">
+                            <path d="M 0,-8 C -4,-12 -10,-12 -10,-6 C -10,-2 -6,0 0,4 C 6,0 10,-2 10,-6 C 10,-12 4,-12 0,-8 Z" fill="#ff1744"/>
+                        </g>
+                        
+                        <!-- Buttons on chest -->
+                        <circle cx="85" cy="155" r="3" fill="#FFD700"/>
+                        <circle cx="115" cy="155" r="3" fill="#FFD700"/>
+                        <circle cx="100" cy="170" r="3" fill="#FFD700"/>
+                    </svg>
+                    <div class="click-effect" id="clickEffect"></div>
+                </div>
+                <div class="click-hint">👆 Clique-moi! 👆</div>
             </div>
 
             <!-- Upgrades Section -->
