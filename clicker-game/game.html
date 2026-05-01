@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 SKritz Clicker - Jeu de Clic</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    width: 100%;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.header h1 {
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+    animation: titlePulse 2s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.subtitle {
+    font-size: 1.1em;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+}
+
+.game-area {
+    padding: 40px 20px;
+}
+
+.stats-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.stat-box {
+    background: white;
+    border: 3px solid;
+    border-radius: 20px;
+    padding: 25px 20px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.stat-box.total-points {
+    border-color: #FFD700;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 215, 0, 0.1) 100%);
+}
+
+.stat-box.click-power {
+    border-color: #FF6B6B;
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 107, 107, 0.1) 100%);
+}
+
+.stat-box.auto-power {
+    border-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(102, 126, 234, 0.1) 100%);
+}
+
+.stat-label {
+    font-size: 1.5em;
+}
+
+.stat-value {
+    font-size: 2.2em;
+    font-weight: bold;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-name {
+    font-size: 0.9em;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.character-section {
+    text-align: center;
+    margin: 60px 0;
+}
+
+.character-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 350px;
+    margin-bottom: 20px;
+}
+
+.character {
+    width: 200px;
+    height: 300px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.1s ease;
+    filter: drop-shadow(0 10px 25px rgba(102, 126, 234, 0.4));
+    animation: characterIdle 3s ease-in-out infinite;
+}
+
+@keyframes characterIdle {
+    0%, 100% {
+        transform: translateY(0) rotateZ(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateZ(0.5deg);
+    }
+}
+
+.character:hover {
+    filter: drop-shadow(0 15px 35px rgba(102, 126, 234, 0.6));
+    transform: scale(1.08);
+}
+
+.character:active {
+    transform: scale(0.92);
+}
+
+.click-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.click-number {
+    position: absolute;
+    font-size: 2.5em;
+    font-weight: bold;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    pointer-events: none;
+    animation: floatUp 1.2s ease-out forwards;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-150px) scale(0.5);
+    }
+}
+
+.click-hint {
+    font-size: 1.1em;
+    color: #667eea;
+    font-weight: 600;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.upgrades-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #f0f1ff 100%);
+    padding: 40px 30px;
+    border-radius: 25px;
+    margin-top: 50px;
+    border: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.upgrades-section h2 {
+    text-align: center;
+    margin-bottom: 35px;
+    color: #333;
+    font-size: 2em;
+    letter-spacing: 1px;
+}
+
+.upgrades-category {
+    margin-bottom: 40px;
+}
+
+.upgrades-category h3 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    border-left: 5px solid #667eea;
+    padding-left: 15px;
+    font-weight: 700;
+}
+
+.upgrades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.upgrade-btn {
+    background: white;
+    border: 3px solid #ddd;
+    border-radius: 18px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 0.95em;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.upgrade-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.upgrade-btn:hover::before {
+    left: 100%;
+}
+
+.upgrade-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+}
+
+.upgrade-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f0f0f0;
+}
+
+.upgrade-btn.affordable {
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    border-color: #84fab0;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(132, 250, 176, 0.4);
+}
+
+.upgrade-btn.affordable:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(132, 250, 176, 0.6);
+}
+
+.upgrade-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.05em;
+}
+
+.upgrade-btn.affordable .upgrade-name {
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.upgrade-cost {
+    font-size: 1.2em;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.upgrade-btn.affordable .upgrade-cost {
+    color: white;
+}
+
+.upgrade-gain {
+    font-size: 1em;
+    color: #667eea;
+    font-weight: 600;
+}
+
+.upgrade-btn.affordable .upgrade-gain {
+    color: white;
+}
+
+.upgrade-owned {
+    font-size: 0.85em;
+    color: #999;
+    font-style: italic;
+}
+
+.upgrade-btn.affordable .upgrade-owned {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2em;
+    }
+
+    .character {
+        width: 150px;
+        height: 225px;
+    }
+
+    .character-container {
+        height: 280px;
+    }
+
+    .stats-dashboard {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+    }
+
+    .upgrades-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.6em;
+    }
+
+    .character {
+        width: 120px;
+        height: 180px;
+    }
+
+    .character-container {
+        height: 220px;
+    }
+
+    .stats-dashboard {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .upgrades-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .upgrade-btn {
+        padding: 15px;
+    }
+
+    .stat-value {
+        font-size: 1.8em;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎭 SKritz Clicker</h1>
+            <p class="subtitle">Clique sur le personnage pour gagner des points!</p>
+        </header>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <!-- Stats Dashboard -->
+            <div class="stats-dashboard">
+                <div class="stat-box total-points">
+                    <span class="stat-label">💰</span>
+                    <span class="stat-value" id="points">0</span>
+                    <span class="stat-name">Points</span>
+                </div>
+                <div class="stat-box click-power">
+                    <span class="stat-label">👆</span>
+                    <span class="stat-value" id="clickPower">1</span>
+                    <span class="stat-name">Cliqueur</span>
+                </div>
+                <div class="stat-box auto-power">
+                    <span class="stat-label">⚙️</span>
+                    <span class="stat-value" id="autoClickPower">1</span>
+                    <span class="stat-name">Auto/sec</span>
+                </div>
+            </div>
+
+            <!-- Character Section -->
+            <div class="character-section">
+                <!-- Character Container -->
+                <div class="character-container">
+                    <svg class="character" id="character" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Shoes -->
+                        <rect x="70" y="270" width="25" height="20" fill="#1a1a1a" rx="3"/>
+                        <rect x="105" y="270" width="25" height="20" fill="#1a1a1a" rx="3"/>
+                        
+                        <!-- Legs -->
+                        <rect x="75" y="220" width="15" height="50" fill="#d4a574" rx="7"/>
+                        <rect x="110" y="220" width="15" height="50" fill="#d4a574" rx="7"/>
+                        
+                        <!-- Body -->
+                        <ellipse cx="100" cy="140" rx="45" ry="60" fill="#e74c3c"/>
+                        
+                        <!-- Arms -->
+                        <rect x="20" y="110" width="20" height="70" fill="#d4a574" rx="10"/>
+                        <rect x="160" y="110" width="20" height="70" fill="#d4a574" rx="10"/>
+                        
+                        <!-- Hands -->
+                        <circle cx="30" cy="185" r="12" fill="#d4a574"/>
+                        <circle cx="170" cy="185" r="12" fill="#d4a574"/>
+                        
+                        <!-- Neck -->
+                        <rect x="90" y="80" width="20" height="15" fill="#d4a574"/>
+                        
+                        <!-- Head -->
+                        <circle cx="100" cy="55" r="35" fill="#FFD700"/>
+                        
+                        <!-- Hair -->
+                        <path d="M 65 35 Q 65 15, 100 10 Q 135 15, 135 35" fill="#FF8C00"/>
+                        <circle cx="80" cy="25" r="8" fill="#FF8C00"/>
+                        <circle cx="120" cy="25" r="8" fill="#FF8C00"/>
+                        
+                        <!-- Eyes -->
+                        <circle cx="85" cy="50" r="6" fill="white"/>
+                        <circle cx="115" cy="50" r="6" fill="white"/>
+                        <circle class="pupil" cx="85" cy="50" r="3" fill="#1a1a1a"/>
+                        <circle class="pupil" cx="115" cy="50" r="3" fill="#1a1a1a"/>
+                        
+                        <!-- Eyebrows -->
+                        <path d="M 78 42 Q 85 40, 92 42" stroke="#FF8C00" stroke-width="2" fill="none"/>
+                        <path d="M 108 42 Q 115 40, 122 42" stroke="#FF8C00" stroke-width="2" fill="none"/>
+                        
+                        <!-- Cheeks -->
+                        <circle cx="65" cy="60" r="8" fill="#ff9999" opacity="0.6"/>
+                        <circle cx="135" cy="60" r="8" fill="#ff9999" opacity="0.6"/>
+                        
+                        <!-- Smile -->
+                        <path d="M 85 70 Q 100 80, 115 70" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+                        
+                        <!-- Nose -->
+                        <path d="M 100 55 L 100 68" stroke="#FFA500" stroke-width="2"/>
+                        
+                        <!-- Heart on chest -->
+                        <g transform="translate(100, 135)">
+                            <path d="M 0,-8 C -4,-12 -10,-12 -10,-6 C -10,-2 -6,0 0,4 C 6,0 10,-2 10,-6 C 10,-12 4,-12 0,-8 Z" fill="#ff1744"/>
+                        </g>
+                        
+                        <!-- Buttons on chest -->
+                        <circle cx="85" cy="155" r="3" fill="#FFD700"/>
+                        <circle cx="115" cy="155" r="3" fill="#FFD700"/>
+                        <circle cx="100" cy="170" r="3" fill="#FFD700"/>
+                    </svg>
+                    <div class="click-effect" id="clickEffect"></div>
+                </div>
+                <div class="click-hint">👆 Clique-moi! 👆</div>
+            </div>
+
+            <!-- Upgrades Section -->
+            <div class="upgrades-section">
+                <h2>🛍️ Améliorations</h2>
+                
+                <div class="upgrades-category">
+                    <h3>👆 Améliorations du Cliqueur</h3>
+                    <div class="upgrades-grid" id="clickerUpgrades"></div>
+                </div>
+
+                <div class="upgrades-category">
+                    <h3>⚙️ Améliorations de l'Auto-Cliqueur</h3>
+                    <div class="upgrades-grid" id="autoUpgrades"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+// Game State
+const gameState = {
+    points: 0,
+    clickPower: 1,
+    autoClickPower: 1,
+    upgrades: {
+        clicker: [
+            { name: 'Cliqueur +1', baseCost: 10, gain: 1, level: 0 },
+            { name: 'Cliqueur +5', baseCost: 100, gain: 5, level: 0 },
+            { name: 'Cliqueur +10', baseCost: 500, gain: 10, level: 0 }
+        ],
+        auto: [
+            { name: 'Auto Lvl 1', baseCost: 50, gain: 1, level: 0 },
+            { name: 'Auto Lvl 2', baseCost: 250, gain: 5, level: 0 },
+            { name: 'Auto Lvl 3', baseCost: 1000, gain: 10, level: 0 },
+            { name: 'Auto Lvl 4', baseCost: 5000, gain: 50, level: 0 }
+        ]
+    }
+};
+
+const COST_MULTIPLIER = 1.15;
+
+const pointsDisplay = document.getElementById('points');
+const clickPowerDisplay = document.getElementById('clickPower');
+const autoClickPowerDisplay = document.getElementById('autoClickPower');
+const character = document.getElementById('character');
+const clickerUpgradesContainer = document.getElementById('clickerUpgrades');
+const autoUpgradesContainer = document.getElementById('autoUpgrades');
+
+function loadGame() {
+    const saved = localStorage.getItem('clickerGameState');
+    if (saved) {
+        const data = JSON.parse(saved);
+        Object.assign(gameState, data);
+        updateDisplay();
+    }
+}
+
+function saveGame() {
+    localStorage.setItem('clickerGameState', JSON.stringify(gameState));
+}
+
+function formatNumber(num) {
+    if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
+    if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+    if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
+    return Math.floor(num).toString();
+}
+
+function getUpgradeCost(baseCost, level) {
+    return Math.floor(baseCost * Math.pow(COST_MULTIPLIER, level));
+}
+
+function updateDisplay() {
+    pointsDisplay.textContent = formatNumber(gameState.points);
+    clickPowerDisplay.textContent = gameState.clickPower;
+    autoClickPowerDisplay.textContent = gameState.autoClickPower;
+
+    updateUpgradeButtons('clicker', clickerUpgradesContainer);
+    updateUpgradeButtons('auto', autoUpgradesContainer);
+}
+
+function updateUpgradeButtons(type, container) {
+    const upgrades = gameState.upgrades[type];
+    
+    container.innerHTML = '';
+    
+    upgrades.forEach((upgrade, index) => {
+        const cost = getUpgradeCost(upgrade.baseCost, upgrade.level);
+        const canAfford = gameState.points >= cost;
+        
+        const button = document.createElement('button');
+        button.className = 'upgrade-btn';
+        if (canAfford) button.classList.add('affordable');
+        if (!canAfford) button.disabled = true;
+        
+        button.innerHTML = `
+            <span class="upgrade-name">${upgrade.name}</span>
+            <span class="upgrade-cost">💰 ${formatNumber(cost)}</span>
+            <span class="upgrade-gain">+${upgrade.gain}${type === 'auto' ? '/sec' : ''}</span>
+            <span class="upgrade-owned">Lvl: ${upgrade.level}</span>
+        `;
+        
+        button.addEventListener('click', () => buyUpgrade(type, index));
+        container.appendChild(button);
+    });
+}
+
+function buyUpgrade(type, index) {
+    const upgrade = gameState.upgrades[type][index];
+    const cost = getUpgradeCost(upgrade.baseCost, upgrade.level);
+    
+    if (gameState.points >= cost) {
+        gameState.points -= cost;
+        upgrade.level++;
+        
+        if (type === 'clicker') {
+            gameState.clickPower += upgrade.gain;
+        } else {
+            gameState.autoClickPower += upgrade.gain;
+        }
+        
+        saveGame();
+        updateDisplay();
+    }
+}
+
+character.addEventListener('click', (e) => {
+    gameState.points += gameState.clickPower;
+    
+    const rect = character.getBoundingClientRect();
+    const effect = document.createElement('div');
+    effect.className = 'click-number';
+    effect.textContent = '+' + gameState.clickPower;
+    effect.style.left = (e.clientX - rect.left) + 'px';
+    effect.style.top = (e.clientY - rect.top) + 'px';
+    
+    document.getElementById('clickEffect').appendChild(effect);
+    
+    setTimeout(() => effect.remove(), 1200);
+    
+    character.style.animation = 'none';
+    setTimeout(() => {
+        character.style.animation = 'characterIdle 3s ease-in-out infinite';
+    }, 50);
+    
+    character.style.transform = 'scale(0.85)';
+    setTimeout(() => {
+        character.style.transform = 'scale(1)';
+    }, 100);
+    
+    saveGame();
+    updateDisplay();
+});
+
+setInterval(() => {
+    if (gameState.autoClickPower > 0) {
+        gameState.points += gameState.autoClickPower;
+        saveGame();
+        updateDisplay();
+    }
+}, 1000);
+
+loadGame();
+updateDisplay();
+    </script>
+</body>
+</html>
