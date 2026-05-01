@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -15,11 +15,11 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1000px;
     width: 100%;
     background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
     overflow: hidden;
 }
 
@@ -27,19 +27,47 @@ body {
 .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 30px 20px;
+    padding: 40px 20px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
 }
 
 .header h1 {
-    font-size: 2.5em;
+    font-size: 2.8em;
     margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+    animation: titlePulse 2s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
 }
 
 .subtitle {
     font-size: 1.1em;
-    opacity: 0.9;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
 }
 
 /* Game Area */
@@ -47,68 +75,111 @@ body {
     padding: 40px 20px;
 }
 
-/* Stats */
-.stats {
+/* Stats Dashboard */
+.stats-dashboard {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 .stat-box {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 20px;
-    border-radius: 15px;
+    background: white;
+    border: 3px solid;
+    border-radius: 20px;
+    padding: 25px 20px;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.stat-box.total-points {
+    border-color: #FFD700;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 215, 0, 0.1) 100%);
+}
+
+.stat-box.click-power {
+    border-color: #FF6B6B;
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 107, 107, 0.1) 100%);
+}
+
+.stat-box.auto-power {
+    border-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(102, 126, 234, 0.1) 100%);
 }
 
 .stat-label {
-    font-size: 0.9em;
-    opacity: 0.9;
-    font-weight: 500;
+    font-size: 1.5em;
 }
 
 .stat-value {
-    font-size: 2em;
+    font-size: 2.2em;
     font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.stat-subvalue {
-    font-size: 0.8em;
-    opacity: 0.8;
+.stat-name {
+    font-size: 0.9em;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* Character Container */
+/* Character Section */
+.character-section {
+    text-align: center;
+    margin: 60px 0;
+}
+
 .character-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 50px 0;
     position: relative;
-    height: 200px;
+    height: 350px;
+    margin-bottom: 20px;
 }
 
 .character {
-    font-size: 120px;
+    width: 200px;
+    height: 300px;
     cursor: pointer;
     user-select: none;
-    transition: transform 0.1s ease;
-    filter: drop-shadow(0 5px 15px rgba(102, 126, 234, 0.4));
+    transition: all 0.1s ease;
+    filter: drop-shadow(0 10px 25px rgba(102, 126, 234, 0.4));
+    animation: characterIdle 3s ease-in-out infinite;
+}
+
+@keyframes characterIdle {
+    0%, 100% {
+        transform: translateY(0) rotateZ(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateZ(0.5deg);
+    }
 }
 
 .character:hover {
-    filter: drop-shadow(0 8px 20px rgba(102, 126, 234, 0.6));
-    transform: scale(1.05);
+    filter: drop-shadow(0 15px 35px rgba(102, 126, 234, 0.6));
+    transform: scale(1.08);
 }
 
 .character:active {
-    transform: scale(0.95);
+    transform: scale(0.92);
 }
 
 .click-effect {
@@ -120,12 +191,15 @@ body {
 
 .click-number {
     position: absolute;
-    font-size: 2em;
+    font-size: 2.5em;
     font-weight: bold;
-    color: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     pointer-events: none;
-    animation: floatUp 1s ease-out forwards;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    animation: floatUp 1.2s ease-out forwards;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes floatUp {
@@ -135,61 +209,97 @@ body {
     }
     100% {
         opacity: 0;
-        transform: translateY(-100px) scale(0.5);
+        transform: translateY(-150px) scale(0.5);
+    }
+}
+
+.click-hint {
+    font-size: 1.1em;
+    color: #667eea;
+    font-weight: 600;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
     }
 }
 
 /* Upgrades Section */
 .upgrades-section {
-    background: #f8f9fa;
-    padding: 30px;
-    border-radius: 15px;
-    margin-top: 40px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #f0f1ff 100%);
+    padding: 40px 30px;
+    border-radius: 25px;
+    margin-top: 50px;
+    border: 2px solid rgba(102, 126, 234, 0.1);
 }
 
 .upgrades-section h2 {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     color: #333;
-    font-size: 1.8em;
+    font-size: 2em;
+    letter-spacing: 1px;
 }
 
 .upgrades-category {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .upgrades-category h3 {
     color: #667eea;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    border-bottom: 2px solid #667eea;
-    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    border-left: 5px solid #667eea;
+    padding-left: 15px;
+    font-weight: 700;
 }
 
 .upgrades-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
 }
 
 .upgrade-btn {
     background: white;
-    border: 2px solid #ddd;
-    border-radius: 12px;
-    padding: 15px;
+    border: 3px solid #ddd;
+    border-radius: 18px;
+    padding: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: center;
-    font-size: 0.9em;
+    font-size: 0.95em;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    gap: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.upgrade-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.upgrade-btn:hover::before {
+    left: 100%;
 }
 
 .upgrade-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     border-color: #667eea;
 }
 
@@ -204,17 +314,18 @@ body {
     border-color: #84fab0;
     color: white;
     font-weight: bold;
-    box-shadow: 0 5px 15px rgba(132, 250, 176, 0.4);
+    box-shadow: 0 8px 20px rgba(132, 250, 176, 0.4);
 }
 
 .upgrade-btn.affordable:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(132, 250, 176, 0.6);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(132, 250, 176, 0.6);
 }
 
 .upgrade-name {
     font-weight: bold;
     color: #333;
+    font-size: 1.05em;
 }
 
 .upgrade-btn.affordable .upgrade-name {
@@ -223,7 +334,7 @@ body {
 }
 
 .upgrade-cost {
-    font-size: 1.1em;
+    font-size: 1.2em;
     color: #e74c3c;
     font-weight: bold;
 }
@@ -233,7 +344,7 @@ body {
 }
 
 .upgrade-gain {
-    font-size: 0.9em;
+    font-size: 1em;
     color: #667eea;
     font-weight: 600;
 }
@@ -243,7 +354,7 @@ body {
 }
 
 .upgrade-owned {
-    font-size: 0.8em;
+    font-size: 0.85em;
     color: #999;
     font-style: italic;
 }
@@ -259,33 +370,41 @@ body {
     }
 
     .character {
-        font-size: 80px;
+        width: 150px;
+        height: 225px;
     }
 
     .character-container {
-        height: 150px;
+        height: 280px;
     }
 
-    .stats {
-        grid-template-columns: 1fr;
+    .stats-dashboard {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
     }
 
     .upgrades-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
 }
 
 @media (max-width: 480px) {
     .header h1 {
-        font-size: 1.5em;
+        font-size: 1.6em;
     }
 
     .character {
-        font-size: 60px;
+        width: 120px;
+        height: 180px;
     }
 
     .character-container {
-        height: 120px;
+        height: 220px;
+    }
+
+    .stats-dashboard {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 
     .upgrades-grid {
@@ -293,6 +412,10 @@ body {
     }
 
     .upgrade-btn {
-        padding: 12px;
+        padding: 15px;
+    }
+
+    .stat-value {
+        font-size: 1.8em;
     }
 }
